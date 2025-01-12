@@ -1,0 +1,123 @@
+R2#sh run
+Building configuration...
+
+Current configuration : 3309 bytes
+!
+! Last configuration change at 20:34:25 UTC Sun Dec 10 2017
+!
+version 15.6
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname R2
+!
+boot-start-marker
+boot-end-marker
+!
+!
+!
+no aaa new-model
+ethernet lmi ce
+!
+!
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+redundancy
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Loopback0
+ ip address 2.2.2.2 255.255.255.0
+!
+interface Loopback22
+ ip address 22.22.22.22 255.255.255.0
+!
+interface GigabitEthernet0/0
+ description +++To-R1+++
+ ip address 192.168.12.2 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/2
+ description +++To-R3+++
+ ip address 192.168.23.2 255.255.255.0
+ duplex auto
+ speed auto
+ media-type rj45
+!
+interface GigabitEthernet0/3
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+ media-type rj45
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 192.168.23.3
+ip route 1.1.1.0 255.255.255.0 192.168.12.1
+ip route 1.1.1.0 255.255.255.0 192.168.23.3 2
+ip route 3.3.3.0 255.255.255.0 192.168.23.3
+!
+!
+!
+!
+control-plane
+!
+line con 0
+ logging synchronous
+line aux 0
+line vty 0 4
+ login
+ transport input none
+!
+no scheduler allocate
+!
+end
